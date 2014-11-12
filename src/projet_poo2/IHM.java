@@ -1,5 +1,7 @@
 package projet_poo2;
 
-public class IHM {
+import javax.swing.JFrame;
+
+public class IHM extends JFrame {
 
 }
