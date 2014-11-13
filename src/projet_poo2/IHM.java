@@ -1,10 +1,14 @@
 package projet_poo2;
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -15,12 +19,14 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-public class IHM extends JFrame implements KeyListener
+public class IHM extends JFrame implements KeyListener,MouseListener
 {
 	private static final long serialVersionUID = 1L;
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu menu1 = new JMenu("Fichier");
 	private JMenuItem item1 = new JMenuItem("Ouvrir");
+	
+	private ArrayList<Point> reference=new ArrayList<Point>();
 	
 	public IHM()
 	{
@@ -29,6 +35,7 @@ public class IHM extends JFrame implements KeyListener
 		this.setTitle("Project");
 		this.setPreferredSize(new Dimension(200,200));
 		this.addKeyListener(this);
+		this.addMouseListener(this);
 		this.menuBar.add(menu1);
 		this.menu1.add(item1);
 		item1.addActionListener(new ActionListener(){
@@ -63,21 +70,44 @@ public class IHM extends JFrame implements KeyListener
 		}
 	}
 
-	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.isControlDown() && e.getKeyChar() != 'o' && e.getKeyCode() == 79) {
 			openFileLocation();
 		}
 	}
 
-	@Override
 	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseClicked(MouseEvent arg0) {
+		reference.add(new Point(arg0.getX(), arg0.getY()));
+		System.out.println(arg0.getX()+" "+arg0.getY());
+		
+	}
+
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
