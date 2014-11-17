@@ -1,5 +1,6 @@
 package projet_poo2;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -18,6 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.SwingUtilities;
+
 
 public class IHM extends JFrame implements KeyListener,MouseListener
 {
@@ -27,6 +30,9 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 	private JMenuItem item1 = new JMenuItem("Ouvrir");
 	
 	private ArrayList<Point> reference=new ArrayList<Point>();
+	
+	private JLabel[] jltab=new JLabel[2];
+	int cpt=0;
 	
 	public IHM()
 	{
@@ -53,9 +59,25 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 		Picture pic=new Picture(filename);
 		ImageIcon ic = new ImageIcon(pic.image);
 		JLabel jl=new JLabel(ic);
-		this.setSize(new Dimension(pic.width,pic.height));
-		this.add(jl);
+		this.setMinimumSize(new Dimension(pic.width*2,pic.height));
+		this.setSize(new Dimension(pic.width*2,pic.height));
 		
+		if(jltab[cpt]!=null)
+		{
+			this.remove(jltab[0]);
+		}
+		
+		jltab[cpt]=jl;
+		if(cpt==0)
+		{
+			this.add(jl,BorderLayout.WEST);
+		}
+		else
+		{
+			this.add(jl, BorderLayout.EAST);
+		}
+		SwingUtilities.updateComponentTreeUI(this);
+		cpt=(cpt+1)%2;
 	}
 	
 	public void openFileLocation(){
