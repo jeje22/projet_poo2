@@ -1,5 +1,7 @@
 package projet_poo2;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +13,6 @@ public class Picture
 {
 	protected BufferedImage image;               // the rasterized image                    // on-screen view
     private String filename;                   // name of file
-    private boolean isOriginUpperLeft = true;  // location of origin
     protected final int width, height;           // width and height
     
 	public Picture(int w, int h)
@@ -23,7 +24,8 @@ public class Picture
         filename = w + "-by-" + h;
     }
 	
-	public Picture(String filename) {
+	public Picture(String filename)
+	{
         this.filename = filename;
         try {
             // try to read from file in working directory
@@ -46,4 +48,15 @@ public class Picture
             throw new RuntimeException("Could not open file: " + filename);
         }
     }
+	
+	public Picture resize()
+	{
+		Picture pic=new Picture(this.filename);
+		Dimension ecran=Toolkit.getDefaultToolkit().getScreenSize();
+		
+		
+		
+		return pic;
+		
+	}
 }

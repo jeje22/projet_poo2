@@ -2,7 +2,9 @@ package projet_poo2;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -29,7 +31,7 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 	private JMenu menu1 = new JMenu("Fichier");
 	private JMenuItem item1 = new JMenuItem("Ouvrir");
 	
-	private ArrayList<Point> reference=new ArrayList<Point>();
+	private ArrayList<ArrayList<Point>> reference=new ArrayList<ArrayList<Point>>();
 	
 	private JLabel[] jltab=new JLabel[2];
 	int cpt=0;
@@ -38,10 +40,12 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 	{
 		super();
 		
+		this.reference.add(new ArrayList<Point>());
+		this.reference.add(new ArrayList<Point>());
+		
 		this.setTitle("Project");
-		this.setPreferredSize(new Dimension(200,200));
+		this.getContentPane().setPreferredSize(new Dimension(200,200));
 		this.addKeyListener(this);
-		this.addMouseListener(this);
 		this.menuBar.add(menu1);
 		this.menu1.add(item1);
 		item1.addActionListener(new ActionListener(){
@@ -57,27 +61,35 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 	public void ouvrirImage(String filename)
 	{
 		Picture pic=new Picture(filename);
+		if(pic.width>Toolkit.getDefaultToolkit().getScreenSize().getWidth() || pic.height>Toolkit.getDefaultToolkit().getScreenSize().getHeight())
+		{
+			pic=pic.resize();
+		}
+		
 		ImageIcon ic = new ImageIcon(pic.image);
 		JLabel jl=new JLabel(ic);
-		this.setMinimumSize(new Dimension(pic.width*2,pic.height));
-		this.setSize(new Dimension(pic.width*2,pic.height));
+		this.setResizable(false);
+		this.getContentPane().setPreferredSize(new Dimension(pic.width*2,pic.height));
+		this.pack();
 		
 		if(jltab[cpt]!=null)
 		{
-			this.remove(jltab[0]);
+			this.remove(jltab[cpt]);
 		}
 		
 		jltab[cpt]=jl;
 		if(cpt==0)
 		{
-			this.add(jl,BorderLayout.WEST);
+			this.getContentPane().add(jl,BorderLayout.WEST);
 		}
 		else
 		{
-			this.add(jl, BorderLayout.EAST);
+			this.getContentPane().add(jl, BorderLayout.EAST);
 		}
 		SwingUtilities.updateComponentTreeUI(this);
+		this.jltab[cpt].addMouseListener(this);
 		cpt=(cpt+1)%2;
+		System.out.println("Frame size = " + this.getSize());
 	}
 	
 	public void openFileLocation(){
@@ -109,7 +121,7 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 	}
 
 	public void mouseClicked(MouseEvent arg0) {
-		reference.add(new Point(arg0.getX(), arg0.getY()));
+		reference.get(cpt).add(new Point(arg0.getX(), arg0.getY()));
 		System.out.println(arg0.getX()+" "+arg0.getY());
 		
 	}
