@@ -1,9 +1,11 @@
 package projet_poo2;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
@@ -34,6 +37,7 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 	private ArrayList<ArrayList<Point>> reference=new ArrayList<ArrayList<Point>>();
 	
 	private JLabel[] jltab=new JLabel[2];
+	private Picture[] pictures = new Picture[2];
 	int cpt=0;
 	
 	public IHM()
@@ -52,13 +56,18 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 		      
 			public void actionPerformed(ActionEvent event)
 			{
-				openFileLocation();
+				try {
+					openFileLocation();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		    }
 		});
 		this.setJMenuBar(menuBar);
 	}
 	
-	public void ouvrirImage(String filename)
+	public void ouvrirImage(String filename) throws IOException
 	{
 		Picture pic=new Picture(filename);
 		if(pic.width>Toolkit.getDefaultToolkit().getScreenSize().getWidth() || pic.height>Toolkit.getDefaultToolkit().getScreenSize().getHeight())
@@ -69,7 +78,12 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 		ImageIcon ic = new ImageIcon(pic.image);
 		JLabel jl=new JLabel(ic);
 		this.setResizable(false);
-		this.getContentPane().setPreferredSize(new Dimension(pic.width*2,pic.height));
+	//	this.getContentPane().setPreferredSize(new Dimension(pic.width*2,pic.height));
+		Dimension dim_screen = Toolkit.getDefaultToolkit().getScreenSize();
+		this.getContentPane().setPreferredSize(new Dimension(dim_screen.width, dim_screen.height-20));
+		//this.getContentPane().setPreferredSize(new Dimension(576*2,720));
+		
+		
 		this.pack();
 		
 		if(jltab[cpt]!=null)
@@ -78,8 +92,10 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 		}
 		
 		jltab[cpt]=jl;
+		
 		if(cpt==0)
 		{
+			
 			this.getContentPane().add(jl,BorderLayout.WEST);
 		}
 		else
@@ -88,11 +104,24 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 		}
 		SwingUtilities.updateComponentTreeUI(this);
 		this.jltab[cpt].addMouseListener(this);
+		if(cpt == 0)
+		{
+			//première image en rouge
+			
+			pictures[cpt] = pic;
+			
+		}
+		else
+		{
+	
+			pictures[cpt] = pic;
+			
+		}
 		cpt=(cpt+1)%2;
 		System.out.println("Frame size = " + this.getSize());
 	}
 	
-	public void openFileLocation(){
+	public void openFileLocation() throws IOException{
 		JFileChooser chooser = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
 		    "JPG & PNG & GIF Images", "jpg", "png","gif","jpeg");
@@ -111,7 +140,12 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 
 	public void keyPressed(KeyEvent e) {
 		if (e.isControlDown() && e.getKeyChar() != 'o' && e.getKeyCode() == 79) {
-			openFileLocation();
+			try {
+				openFileLocation();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 
@@ -121,8 +155,24 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 	}
 
 	public void mouseClicked(MouseEvent arg0) {
-		reference.get(cpt).add(new Point(arg0.getX(), arg0.getY()));
-		System.out.println(arg0.getX()+" "+arg0.getY());
+		
+		System.out.println("cpt: " + cpt + " "+ arg0.getX()+" "+arg0.getY());
+		System.out.println(arg0.getComponent().toString());
+		Component c = arg0.getComponent();
+		if(c.equals(jltab[0]))
+		{
+			System.out.println("image 1");
+			reference.get(0).add(new Point(arg0.getX(), arg0.getY()));
+		}
+		else
+		{
+			System.out.println("image2");
+			reference.get(1).add(new Point(arg0.getX(), arg0.getY()));
+			
+		
+		}
+
+		
 		
 	}
 

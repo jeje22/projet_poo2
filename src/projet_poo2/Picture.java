@@ -1,7 +1,13 @@
 package projet_poo2;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -51,12 +57,26 @@ public class Picture
 	
 	public Picture resize()
 	{
-		Picture pic=new Picture(this.filename);
-		Dimension ecran=Toolkit.getDefaultToolkit().getScreenSize();
-		
-		
-		
-		return pic;
+		//largeur de l'image : 960
+		//hauteur de l'image : 1080
+		//Picture pic=new Picture(this.filename);
+		Dimension ecran=Toolkit.getDefaultToolkit().getScreenSize(); //c'est ds le code de base
+		int w = (int)(ecran.width/2);
+		int h = ecran.height;
+		 GraphicsConfiguration configuration = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+		 BufferedImage imnew = configuration.createCompatibleImage(w, h);
+		Graphics2D g = imnew.createGraphics();
+		g.drawImage(image, 0, 0, w, h, 0, 0, image.getWidth(), image.getHeight(), null);
+		g.dispose();
+		this.image = imnew;
+	    System.out.println("width une image =  "+ image.getWidth());
+	    System.out.println("height une image = "+ image.getHeight());
+	   
+		return this;
 		
 	}
+	
+	
+	
+
 }
