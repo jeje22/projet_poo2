@@ -70,17 +70,25 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 	public void ouvrirImage(String filename) throws IOException
 	{
 		Picture pic=new Picture(filename);
+		System.out.println(pic.width+"     "+pic.height);
+		System.out.println(Toolkit.getDefaultToolkit().getScreenSize().getWidth()+"       "+Toolkit.getDefaultToolkit().getScreenSize().getHeight());
 		if(pic.width>Toolkit.getDefaultToolkit().getScreenSize().getWidth() || pic.height>Toolkit.getDefaultToolkit().getScreenSize().getHeight())
 		{
+			System.out.println("resize");
 			pic=pic.resize();
+			Dimension dim_screen = Toolkit.getDefaultToolkit().getScreenSize();
+			this.getContentPane().setPreferredSize(new Dimension(dim_screen.width, dim_screen.height-20));
+		}
+		else
+		{
+			this.getContentPane().setPreferredSize(new Dimension(pic.width*2,pic.height));
 		}
 		
 		ImageIcon ic = new ImageIcon(pic.image);
 		JLabel jl=new JLabel(ic);
 		this.setResizable(false);
-	//	this.getContentPane().setPreferredSize(new Dimension(pic.width*2,pic.height));
-		Dimension dim_screen = Toolkit.getDefaultToolkit().getScreenSize();
-		this.getContentPane().setPreferredSize(new Dimension(dim_screen.width, dim_screen.height-20));
+		
+		
 		//this.getContentPane().setPreferredSize(new Dimension(576*2,720));
 		
 		
