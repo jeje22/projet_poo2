@@ -33,7 +33,10 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu menu1 = new JMenu("Fichier");
 	private JMenuItem item1 = new JMenuItem("Ouvrir");
-	
+	/////////////
+	private JMenu menu2 = new JMenu("Calcul");
+	private JMenuItem item2 = new JMenuItem("Corrélation");
+	////////////
 	private ArrayList<ArrayList<Point>> reference=new ArrayList<ArrayList<Point>>();
 	
 	private JLabel[] jltab=new JLabel[2];
@@ -64,6 +67,19 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 				}
 		    }
 		});
+		
+		/////
+		this.menuBar.add(menu2);
+		this.menu2.add(item2);
+		item2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event)
+			{
+				System.out.println("lancer fonction corrélation");
+				//// fonction corrélation de la classe Calcul
+				/// Calcul.correlation()
+			}
+		});
+		
 		this.setJMenuBar(menuBar);
 	}
 	
