@@ -40,10 +40,10 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 	
 	String pathopendirectory = ".";
 	////////////
-	private ArrayList<ArrayList<Point>> reference=new ArrayList<ArrayList<Point>>();
+	protected static ArrayList<ArrayList<Point>> reference=new ArrayList<ArrayList<Point>>();
 	
 	private JLabel[] jltab=new JLabel[2];
-	private Picture[] pictures = new Picture[2];
+	protected static Picture[] pictures = new Picture[2];
 	int cpt=0;
 	
 	public IHM()
