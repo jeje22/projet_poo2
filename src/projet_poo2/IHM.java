@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -36,6 +37,8 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 	/////////////
 	private JMenu menu2 = new JMenu("Calcul");
 	private JMenuItem item2 = new JMenuItem("Corrélation");
+	
+	String pathopendirectory = ".";
 	////////////
 	private ArrayList<ArrayList<Point>> reference=new ArrayList<ArrayList<Point>>();
 	
@@ -74,9 +77,13 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 		item2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event)
 			{
-				System.out.println("lancer fonction corrélation");
-				//// fonction corrélation de la classe Calcul
-				/// Calcul.correlation()
+				if(reference.get(0).size() >= 4 && reference.get(1).size() >= 4)
+				{
+					System.out.println("lancer fonction corrélation");
+					//// fonction corrélation de la classe Calcul
+					/// Calcul.correlation()
+				}
+			
 			}
 		});
 		
@@ -150,9 +157,14 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
 		    "JPG & PNG & GIF Images", "jpg", "png","gif","jpeg");
 		chooser.setFileFilter(filter);
+		if(!pathopendirectory.equals("."))
+		{
+			chooser.setCurrentDirectory(new File(pathopendirectory));
+		}
 		chooser.showOpenDialog(IHM.this);
 		if(chooser.getSelectedFile() != null)
 		{
+			pathopendirectory = chooser.getSelectedFile().getAbsolutePath();
 			ouvrirImage(chooser.getSelectedFile().getAbsolutePath());
 		}
 	}
