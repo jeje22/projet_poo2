@@ -3,9 +3,7 @@ package projet_poo2;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,9 +36,14 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 	private JMenu menu2 = new JMenu("Calcul");
 	private JMenuItem item2 = new JMenuItem("Corrélation");
 	
+	private JMenu menu3=new JMenu("3D");
+	private JMenuItem item3 = new JMenuItem("Lancer");
+	
 	String pathopendirectory = ".";
 	////////////
 	protected static ArrayList<ArrayList<Point>> reference=new ArrayList<ArrayList<Point>>();
+	
+	private Image3D img3D;
 	
 	private JLabel[] jltab=new JLabel[2];
 	protected static Picture[] pictures = new Picture[2];
@@ -50,8 +53,8 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 	{
 		super();
 		
-		this.reference.add(new ArrayList<Point>());
-		this.reference.add(new ArrayList<Point>());
+		reference.add(new ArrayList<Point>());
+		reference.add(new ArrayList<Point>());
 		
 		this.setTitle("Project");
 		this.getContentPane().setPreferredSize(new Dimension(200,200));
@@ -77,6 +80,7 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 		item2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event)
 			{
+				Calcul.correlation();
 				if(reference.get(0).size() >= 4 && reference.get(1).size() >= 4)
 				{
 					System.out.println("lancer fonction corrélation");
@@ -85,6 +89,20 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 				}
 			
 			}
+		});
+		
+		this.menuBar.add(menu3);
+		this.menu3.add(item3);
+		item3.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("Lancement Image 3D");
+				//if(img3D==null)
+				//{
+					Image3D.lancer();
+				//}
+			}
+			
 		});
 		
 		this.setJMenuBar(menuBar);
@@ -98,9 +116,10 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 		if(pic.width>Toolkit.getDefaultToolkit().getScreenSize().getWidth() || pic.height>Toolkit.getDefaultToolkit().getScreenSize().getHeight())
 		{
 			System.out.println("resize");
+			this.setLocation(0, 0);
 			pic=pic.resize();
 			Dimension dim_screen = Toolkit.getDefaultToolkit().getScreenSize();
-			this.getContentPane().setPreferredSize(new Dimension(dim_screen.width, dim_screen.height-20));
+			this.getContentPane().setPreferredSize(new Dimension(dim_screen.width, dim_screen.height));
 		}
 		else
 		{

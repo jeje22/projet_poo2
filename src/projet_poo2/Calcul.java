@@ -1,15 +1,14 @@
 package projet_poo2;
 
 import java.awt.Color;
-import java.awt.Point;
 
 public class Calcul
 {
 	public static boolean correlation()
 	{
 		boolean res=false;
-		int N=IHM.pictures[0].width/2;
-		int P=IHM.pictures[0].height/2;
+		//int N=IHM.pictures[0].width/2;
+		//int P=IHM.pictures[0].height/2;
 		
 		int[][] rgbArray1 = new int[IHM.pictures[0].width][IHM.pictures[0].height];
 		int[][] rgbArray2 = new int[IHM.pictures[1].width][IHM.pictures[1].height];;
@@ -28,7 +27,7 @@ public class Calcul
 				rgbArray2[i][j]=IHM.pictures[1].image.getRGB(i,j);
 				
 				Color c=new Color(rgbArray1[i][j]);
-				//System.out.println(j+" "+c.getRed());
+				System.out.println(j+" "+c.getRed());
 				float[] hsb_values=new float[3];
 				Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), hsb_values);
 				

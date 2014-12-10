@@ -1,13 +1,10 @@
 package projet_poo2;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
-import java.awt.RenderingHints;
 import java.awt.Toolkit;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +15,7 @@ import javax.imageio.ImageIO;
 public class Picture
 {
 	protected BufferedImage image;               // the rasterized image                    // on-screen view
-    private String filename;                   // name of file
+    protected String filename;                   // name of file
     protected final int width, height;           // width and height
     
 	public Picture(int w, int h)
