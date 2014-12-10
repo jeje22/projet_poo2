@@ -13,13 +13,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -29,33 +25,28 @@ import javax.swing.SwingUtilities;
 public class IHM extends JFrame implements KeyListener,MouseListener
 {
 	private static final long serialVersionUID = 1L;
+	
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu menu1 = new JMenu("Fichier");
 	private JMenuItem item1 = new JMenuItem("Ouvrir");
-	/////////////
+	
 	private JMenu menu2 = new JMenu("Calcul");
-	private JMenuItem item2 = new JMenuItem("Corrélation");
+	private JMenuItem item2 = new JMenuItem("CorrÃ©lation");
 	
 	private JMenu menu3=new JMenu("3D");
 	private JMenuItem item3 = new JMenuItem("Lancer");
 	
 	String pathopendirectory = ".";
-	////////////
-	protected static ArrayList<ArrayList<Point>> reference=new ArrayList<ArrayList<Point>>();
 	
 	private Image3D img3D;
 	
-	private JLabel[] jltab=new JLabel[2];
+	private MyJLabel[] jltab = new MyJLabel[2];
 	protected static Picture[] pictures = new Picture[2];
 	int cpt=0;
 	
 	public IHM()
 	{
 		super();
-		
-		reference.add(new ArrayList<Point>());
-		reference.add(new ArrayList<Point>());
-		
 		this.setTitle("Project");
 		this.getContentPane().setPreferredSize(new Dimension(200,200));
 		this.addKeyListener(this);
@@ -74,17 +65,18 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 		    }
 		});
 		
-		/////
 		this.menuBar.add(menu2);
 		this.menu2.add(item2);
 		item2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event)
 			{
+				//besoin de changer la reference dans calcul.class
+				//jltab[0] ou [1] pour accÃ©der aux listes
 				Calcul.correlation();
-				if(reference.get(0).size() >= 4 && reference.get(1).size() >= 4)
+				if(jltab[0].getSizeList() >= 4 && jltab[1].getSizeList() >= 4)
 				{
-					System.out.println("lancer fonction corrélation");
-					//// fonction corrélation de la classe Calcul
+					System.out.println("lancer fonction corrÃ©lation");
+					//// fonction corrÃ©lation de la classe Calcul
 					/// Calcul.correlation()
 				}
 			
@@ -110,31 +102,26 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 	
 	public void ouvrirImage(String filename) throws IOException
 	{
-		Picture pic=new Picture(filename);
+		Picture pic = new Picture(filename);
 		System.out.println(pic.width+"     "+pic.height);
 		System.out.println(Toolkit.getDefaultToolkit().getScreenSize().getWidth()+"       "+Toolkit.getDefaultToolkit().getScreenSize().getHeight());
-		if(pic.width>Toolkit.getDefaultToolkit().getScreenSize().getWidth() || pic.height>Toolkit.getDefaultToolkit().getScreenSize().getHeight())
+		if(pic.width > Toolkit.getDefaultToolkit().getScreenSize().getWidth() 
+				|| pic.height > Toolkit.getDefaultToolkit().getScreenSize().getHeight())
 		{
 			System.out.println("resize");
-			this.setLocation(0, 0);
-			pic=pic.resize();
+			pic = pic.resize();
 			Dimension dim_screen = Toolkit.getDefaultToolkit().getScreenSize();
-			this.getContentPane().setPreferredSize(new Dimension(dim_screen.width, dim_screen.height));
+			this.getContentPane().setPreferredSize(new Dimension(dim_screen.width, dim_screen.height-20));
 		}
 		else
 		{
 			this.getContentPane().setPreferredSize(new Dimension(pic.width*2,pic.height));
 		}
 		
-		ImageIcon ic = new ImageIcon(pic.image);
-		JLabel jl=new JLabel(ic);
-		this.setResizable(false);
 		
-		
-		//this.getContentPane().setPreferredSize(new Dimension(576*2,720));
-		
-		
-		this.pack();
+		MyJLabel jl = new MyJLabel();
+		jl.setPreferredSize(new Dimension(pic.getWidth(), pic.getHeight()));
+		jl.setImage(pic.getFileName());
 		
 		if(jltab[cpt]!=null)
 		{
@@ -145,30 +132,33 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 		
 		if(cpt==0)
 		{
-			
-			this.getContentPane().add(jl,BorderLayout.WEST);
+			this.pack();
+			this.getContentPane().add(jltab[cpt],BorderLayout.WEST);
 		}
 		else
-		{
-			this.getContentPane().add(jl, BorderLayout.EAST);
+		{	
+			this.pack();
+			this.getContentPane().add(jltab[cpt], BorderLayout.EAST);
 		}
-		SwingUtilities.updateComponentTreeUI(this);
+		
 		this.jltab[cpt].addMouseListener(this);
+		
+		this.setResizable(false);
+		
+		
+		SwingUtilities.updateComponentTreeUI(this);
+		
 		if(cpt == 0)
-		{
-			//première image en rouge
-			
-			pictures[cpt] = pic;
-			
+		{	
+			pictures[cpt] = pic;	
 		}
 		else
 		{
-	
-			pictures[cpt] = pic;
-			
+			pictures[cpt] = pic;	
 		}
 		cpt=(cpt+1)%2;
 		System.out.println("Frame size = " + this.getSize());
+		//jltab[cpt].repaint();
 	}
 	
 	public void openFileLocation() throws IOException{
@@ -212,23 +202,20 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 	public void mouseClicked(MouseEvent arg0) {
 		
 		System.out.println("cpt: " + cpt + " "+ arg0.getX()+" "+arg0.getY());
-		System.out.println(arg0.getComponent().toString());
+		//System.out.println(arg0.getComponent().toString());
 		Component c = arg0.getComponent();
 		if(c.equals(jltab[0]))
 		{
 			System.out.println("image 1");
-			reference.get(0).add(new Point(arg0.getX(), arg0.getY()));
+			jltab[0].setPoint(new Point(arg0.getX(), arg0.getY()));
+			jltab[0].repaint();
 		}
 		else
 		{
 			System.out.println("image2");
-			reference.get(1).add(new Point(arg0.getX(), arg0.getY()));
-			
-		
+			jltab[1].setPoint(new Point(arg0.getX(), arg0.getY()));
+			jltab[1].repaint();
 		}
-
-		
-		
 	}
 
 	public void mouseEntered(MouseEvent arg0) {
