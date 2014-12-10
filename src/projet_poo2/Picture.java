@@ -73,7 +73,19 @@ public class Picture
 		
 	}
 	
+	public String getFileName()
+	{
+		return this.filename;
+	}
 	
 	
-
+	public int getWidth()
+	{
+		return this.width;
+	}
+	
+	public int getHeight()
+	{
+		return this.height;
+	}
 }
