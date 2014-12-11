@@ -40,7 +40,7 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 	
 	private Image3D img3D;
 	
-	private MyJLabel[] jltab = new MyJLabel[2];
+	protected static MyJLabel[] jltab = new MyJLabel[2];
 	protected static Picture[] pictures = new Picture[2];
 	int cpt=0;
 	

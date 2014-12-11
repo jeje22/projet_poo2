@@ -1,10 +1,8 @@
 package projet_poo2;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,7 +20,7 @@ public class MyJLabel extends JLabel {
 	protected BufferedImage croix;
 	protected int widthPar2;
 	protected int heightPar2;
-	private ArrayList<Point> reference = new ArrayList<Point>();
+	protected ArrayList<Point> reference = new ArrayList<Point>();
 	
 	public MyJLabel(){
 		super();

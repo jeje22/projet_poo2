@@ -5,11 +5,7 @@ import java.awt.Point;
 
 public class Calcul
 {
-	@SuppressWarnings("deprecation")
 	public double[] profondeur() {
-		
-		Point x=new Point(0,0);
-		Point y=new Point(0,0);
 		
 		if(IHM.jltab[0].reference.size()==IHM.jltab[1].reference.size())
 		{
@@ -49,24 +45,59 @@ public class Calcul
 		//int N=IHM.pictures[0].width/2;
 		//int P=IHM.pictures[0].height/2;
 		
-		int[][] rgbArray1 = new int[IHM.pictures[0].width][IHM.pictures[0].height];
+		/*int[][] rgbArray1 = new int[IHM.pictures[0].width][IHM.pictures[0].height];
 		int[][] rgbArray2 = new int[IHM.pictures[1].width][IHM.pictures[1].height];;
 		float[][] int_values1=new float[IHM.pictures[0].width][IHM.pictures[0].height];
-		float[][] int_values2=new float[IHM.pictures[1].width][IHM.pictures[1].height];
+		float[][] int_values2=new float[IHM.pictures[1].width][IHM.pictures[1].height];*/
+		
+		
+		int[][][] rgbArray1=new int[IHM.jltab[0].reference.size()][7][7];
+		int[][][] rgbArray2=new int[IHM.jltab[1].reference.size()][7][7];
+		float[][][] int_values1=new float[IHM.jltab[0].reference.size()][7][7];
+		float[][][] int_values2=new float[IHM.jltab[1].reference.size()][7][7];
 		
 		float int_moy1=0;
 		float int_moy2=0;
 		
-		for(int i=0;i<IHM.pictures[0].width;i++)
+		for(int i=0;i<IHM.jltab[0].reference.size();i++)
 		{
-			for(int j=0;i<IHM.pictures[0].height;j++)
+			Point current1=IHM.jltab[0].reference.get(i);
+			Point current2=IHM.jltab[1].reference.get(i);
+			for(int j=0;j<7;j++)
+			{
+				for(int k=0;k<7;k++)
+				{
+					rgbArray1[i][j][k]=IHM.pictures[0].image.getRGB((int) current1.getX()+j-3,(int) current1.getY()+k-3);
+					
+					rgbArray2[i][j][k]=IHM.pictures[1].image.getRGB((int) current2.getX()+j-3,(int) current2.getY()+k-3);
+					
+					Color c=new Color(rgbArray1[i][j][k]);
+					float[] hsb_values=new float[3];
+					Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), hsb_values);
+					
+					int_values1[i][j][k]=hsb_values[1];
+					
+					int_moy1+=hsb_values[1];
+					
+					c=new Color(rgbArray2[i][j][k]);
+					Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), hsb_values);
+					
+					int_values2[i][j][k]=hsb_values[1];
+					
+					int_moy2+=hsb_values[1];
+				}
+			}
+		}
+		
+		/*for(int i=0;i<IHM.pictures[0].width;i++)
+		{
+			for(int j=0;j<IHM.pictures[0].height;j++)
 			{
 				rgbArray1[i][j]=IHM.pictures[0].image.getRGB(i,j);
 				
 				rgbArray2[i][j]=IHM.pictures[1].image.getRGB(i,j);
 				
 				Color c=new Color(rgbArray1[i][j]);
-				System.out.println(j+" "+c.getRed());
 				float[] hsb_values=new float[3];
 				Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), hsb_values);
 				
@@ -84,14 +115,17 @@ public class Calcul
 		}
 		
 		int_moy1/=IHM.pictures[0].width*IHM.pictures[0].height;
-		int_moy2/=IHM.pictures[0].width*IHM.pictures[0].height;
+		int_moy2/=IHM.pictures[0].width*IHM.pictures[0].height;*/
+		
+		int_moy1/=IHM.jltab[0].reference.size();
+		int_moy2/=IHM.jltab[1].reference.size();
 		
 		float r=0;
 		float haut=0;
 		float bas1=0;
 		float bas2=0;
 		
-		for(int i=0;i<int_values1.length;i++)
+		/*for(int i=0;i<int_values1.length;i++)
 		{
 			for(int j=0;j<int_values1[i].length;j++)
 			{
@@ -112,6 +146,40 @@ public class Calcul
 			for(int j=0;j<int_values2[i].length;j++)
 			{
 				bas2+=(int_values2[i][j]-int_moy2)*(int_values2[i][j]-int_moy2);
+			}
+		}*/
+		
+		for(int i=0;i<int_values1.length;i++)
+		{
+			for(int j=0;j<int_values1[i].length;j++)
+			{
+				for(int k=0;k<int_values1[i][j].length;k++)
+				{
+					haut+=(int_values1[i][j][k]-int_moy1)*(int_values2[i][j][k]-int_moy2);
+				}
+			}
+				
+		}
+		
+		for(int i=0;i<int_values1.length;i++)
+		{
+			for(int j=0;j<int_values1[i].length;j++)
+			{
+				for(int k=0;k<int_values1[i][j].length;k++)
+				{
+					bas1+=(int_values1[i][j][k]-int_moy1)*(int_values1[i][j][k]-int_moy1);
+				}
+			}
+		}
+		
+		for(int i=0;i<int_values2.length;i++)
+		{
+			for(int j=0;j<int_values1[i].length;j++)
+			{
+				for(int k=0;k<int_values1[i][j].length;k++)
+				{
+					bas2+=(int_values2[i][j][k]-int_moy2)*(int_values2[i][j][k]-int_moy2);
+				}
 			}
 		}
 		
