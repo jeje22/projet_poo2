@@ -119,9 +119,9 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 		}
 		
 		
-		MyJLabel jl = new MyJLabel();
-		jl.setPreferredSize(new Dimension(pic.getWidth(), pic.getHeight()));
-		jl.setImage(pic.getFileName());
+		MyJLabel jl = new MyJLabel(pic.image);
+		jl.setPreferredSize(new Dimension(pic.image.getWidth(), pic.image.getWidth()));
+		jl.setImage();
 		
 		if(jltab[cpt]!=null)
 		{
@@ -132,18 +132,18 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 		
 		if(cpt==0)
 		{
-			this.pack();
 			this.getContentPane().add(jltab[cpt],BorderLayout.WEST);
 		}
 		else
 		{	
-			this.pack();
 			this.getContentPane().add(jltab[cpt], BorderLayout.EAST);
 		}
 		
 		this.jltab[cpt].addMouseListener(this);
 		
+		
 		this.setResizable(false);
+		this.pack();
 		
 		
 		SwingUtilities.updateComponentTreeUI(this);
@@ -158,7 +158,6 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 		}
 		cpt=(cpt+1)%2;
 		System.out.println("Frame size = " + this.getSize());
-		//jltab[cpt].repaint();
 	}
 	
 	public void openFileLocation() throws IOException{

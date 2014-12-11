@@ -36,9 +36,13 @@ public class MyJLabel extends JLabel {
 		super(i);
 	}
 	
-	public void setImage(String path) {
+	public MyJLabel(BufferedImage pic){
+		this.image = pic;
+	}
+	
+	public void setImage() {
 		try {
-			image = ImageIO.read(new File(path));
+			//image = ImageIO.read(new File(path));
 			URL url = getClass().getResource("croix.png");
 			if(url == null){
 				url = new URL("croix.png");
@@ -78,7 +82,7 @@ public class MyJLabel extends JLabel {
 		super.paintComponent(g);
 	 	if (image != null) {
 	 		
-	 		this.setPreferredSize(new Dimension(image.getWidth(),image.getHeight()));
+	 		//this.setPreferredSize(new Dimension(image.getWidth(),image.getHeight()));
 		 	g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
 		 	//g.drawImage(croix, 50, 50, null);
 		 	if(!reference.isEmpty())
