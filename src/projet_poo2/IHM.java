@@ -31,12 +31,13 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 	private JMenuItem item1 = new JMenuItem("Ouvrir");
 	
 	private JMenu menu2 = new JMenu("Calcul");
-	private JMenuItem item2 = new JMenuItem("CorrÃ©lation");
+	private JMenuItem item2 = new JMenuItem("Corrélation");
+	private JMenuItem item2_2 = new JMenuItem("Profondeur");
 	
 	private JMenu menu3=new JMenu("3D");
 	private JMenuItem item3 = new JMenuItem("Lancer");
 	
-	private JMenu menu4 = new JMenu("DÃ©sattribution");
+	private JMenu menu4 = new JMenu("Désattribution");
 	private JMenuItem item4_1 = new JMenuItem("Clear image 1");
 	private JMenuItem item4_2 = new JMenuItem("Clear image 2");
 	private JMenuItem item4_3 = new JMenuItem("Clear All");
@@ -126,6 +127,16 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 			
 			}
 		});
+		this.menu2.add(item2_2);
+		item2_2.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				Calcul.profondeur();
+			}
+			
+		});
 		
 		this.menuBar.add(menu3);
 		this.menu3.add(item3);
@@ -153,6 +164,7 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 				|| pic.height > Toolkit.getDefaultToolkit().getScreenSize().getHeight())
 		{
 			System.out.println("resize");
+			this.setLocation(0, 0);
 			pic = pic.resize();
 			Dimension dim_screen = Toolkit.getDefaultToolkit().getScreenSize();
 			this.getContentPane().setPreferredSize(new Dimension(dim_screen.width, dim_screen.height-20));

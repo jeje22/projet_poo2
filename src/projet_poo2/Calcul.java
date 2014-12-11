@@ -3,9 +3,11 @@ package projet_poo2;
 import java.awt.Color;
 import java.awt.Point;
 
+import javax.swing.JOptionPane;
+
 public class Calcul
 {
-	public double[] profondeur() {
+	public static double[] profondeur() {
 		
 		if(IHM.jltab[0].reference.size()==IHM.jltab[1].reference.size())
 		{
@@ -29,6 +31,11 @@ public class Calcul
 				System.out.println("profondeur : " + profondeur);
 				profondeurs[k] = profondeur;
 			}
+			String msg="";
+			for(int i = 0; i<profondeurs.length; i++) {
+				msg += profondeurs[i] + " \n ";
+			}
+			JOptionPane.showMessageDialog(null,msg);
 			return profondeurs;
 		}
 		else
@@ -187,7 +194,7 @@ public class Calcul
 		bas2=(float) Math.sqrt(bas2);
 		
 		r=haut/(bas1*bas2);
-		
+		JOptionPane.showMessageDialog(null,r);
 		System.out.println(r);
 		
 		
