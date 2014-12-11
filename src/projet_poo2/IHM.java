@@ -36,6 +36,11 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 	private JMenu menu3=new JMenu("3D");
 	private JMenuItem item3 = new JMenuItem("Lancer");
 	
+	private JMenu menu4 = new JMenu("Désattribution");
+	private JMenuItem item4_1 = new JMenuItem("Clear image 1");
+	private JMenuItem item4_2 = new JMenuItem("Clear image 2");
+	private JMenuItem item4_3 = new JMenuItem("Clear All");
+	
 	String pathopendirectory = ".";
 	
 	private Image3D img3D;
@@ -63,6 +68,41 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 					e.printStackTrace();
 				}
 		    }
+		});
+		
+		this.menuBar.add(menu4);
+		this.menu4.add(item4_1);
+		menu4.addSeparator();
+		this.menu4.add(item4_2);
+		menu4.addSeparator();
+		this.menu4.add(item4_3);
+		
+		item4_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event)
+			{
+				jltab[0].clearList();
+				jltab[0].repaint();
+			}
+		});
+		item4_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event)
+			{
+				jltab[1].clearList();
+				jltab[1].repaint();
+				
+			
+			}
+		});
+		item4_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event)
+			{
+				for(MyJLabel jl : jltab)
+				{
+					jl.clearList();
+					jl.repaint();
+				}
+			
+			}
 		});
 		
 		this.menuBar.add(menu2);
