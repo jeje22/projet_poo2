@@ -80,28 +80,32 @@ public class IHM extends JFrame implements KeyListener,MouseListener
 		item4_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event)
 			{
-				jltab[0].clearList();
-				jltab[0].repaint();
+				if(jltab[0] != null){
+					jltab[0].clearList();
+					jltab[0].repaint();
+				}
 			}
 		});
 		item4_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event)
 			{
-				jltab[1].clearList();
-				jltab[1].repaint();
-				
-			
+				if(jltab[1] != null){
+					jltab[1].clearList();
+					jltab[1].repaint();
+				}
 			}
 		});
 		item4_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event)
 			{
-				for(MyJLabel jl : jltab)
+				if(jltab[0] != null && jltab[1] != null)
 				{
-					jl.clearList();
-					jl.repaint();
+					for(MyJLabel jl : jltab)
+					{
+						jl.clearList();
+						jl.repaint();
+					}
 				}
-			
 			}
 		});
 		
