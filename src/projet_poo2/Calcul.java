@@ -1,9 +1,48 @@
 package projet_poo2;
 
 import java.awt.Color;
+import java.awt.Point;
 
 public class Calcul
 {
+	@SuppressWarnings("deprecation")
+	public double[] profondeur() {
+		
+		Point x=new Point(0,0);
+		Point y=new Point(0,0);
+		
+		if(IHM.jltab[0].reference.size()==IHM.jltab[1].reference.size())
+		{
+			double[] profondeurs = new double[IHM.jltab[0].reference.size()];
+			for(int k=0;k<IHM.jltab[0].reference.size();k++)
+			{
+				
+				int val1_x=IHM.jltab[0].reference.get(k).x;
+				int val1_y=IHM.jltab[0].reference.get(k).y;
+				
+				int val2_x=IHM.jltab[1].reference.get(k).x;
+				int val2_y=IHM.jltab[1].reference.get(k).y;
+				
+				System.out.println("x1 :"+val1_x+" y1 :"+val1_y+" x2 :"+val2_x+" y2 :"+val2_y);
+				//différence entre le point sur les deux images
+				double disparite = IHM.jltab[0].reference.get(k).distance(IHM.jltab[1].reference.get(k));
+				// 113 = distance focale * distance entre l'appareil photo pour les deux images 
+				double profondeur = 113/disparite;
+			
+				System.out.println("disparite : "+ disparite);
+				System.out.println("profondeur : " + profondeur);
+				profondeurs[k] = profondeur;
+			}
+			return profondeurs;
+		}
+		else
+		{
+			System.out.println("erreur : le nombre de point n'est pas le même sur les 2 images");
+			return null;
+		}
+		
+	}
+	
 	public static boolean correlation()
 	{
 		boolean res=false;
